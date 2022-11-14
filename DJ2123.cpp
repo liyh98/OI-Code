@@ -36,7 +36,7 @@ int main()
 		while (head < tail && intersection(q[head], q[head + 1]) < a[i])
 			head++;
 		f[i] = f[q[head]] + (long long)a[i] * (n - c[q[head]]);
-		//printf("%d %d %lld\n", i, q[head], f[i]);
+		// printf("%d %d %lld\n", i, q[head], f[i]);
 		while (head < tail && intersection(q[tail], i) < intersection(q[tail - 1], q[tail]))
 			--tail;
 		q[++tail] = i;

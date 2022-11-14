@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "modint": "cpp",
+        "iostream": "cpp",
+        "all": "cpp"
+    }
+}

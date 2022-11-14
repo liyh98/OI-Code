@@ -1,0 +1,272 @@
+<html>
+<head>
+<title>FInDrvPS3.ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+FInDrvPS3.ipynb</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">{ 
+<a name="l2"><span class="ln">2    </span></a> &quot;cells&quot;: [ 
+<a name="l3"><span class="ln">3    </span></a>  { 
+<a name="l4"><span class="ln">4    </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l5"><span class="ln">5    </span></a>   &quot;execution_count&quot;: 1, 
+<a name="l6"><span class="ln">6    </span></a>   &quot;id&quot;: &quot;8f924e44&quot;, 
+<a name="l7"><span class="ln">7    </span></a>   &quot;metadata&quot;: {}, 
+<a name="l8"><span class="ln">8    </span></a>   &quot;outputs&quot;: [], 
+<a name="l9"><span class="ln">9    </span></a>   &quot;source&quot;: [ 
+<a name="l10"><span class="ln">10   </span></a>    &quot;from scipy.stats import norm\n&quot;, 
+<a name="l11"><span class="ln">11   </span></a>    &quot;import csv\n&quot;, 
+<a name="l12"><span class="ln">12   </span></a>    &quot;import matplotlib.pyplot as plt\n&quot;, 
+<a name="l13"><span class="ln">13   </span></a>    &quot;import math\n&quot;, 
+<a name="l14"><span class="ln">14   </span></a>    &quot;S = 2672.26\n&quot;, 
+<a name="l15"><span class="ln">15   </span></a>    &quot;T = (20 + 365 - 31 - 28) / 365\n&quot;, 
+<a name="l16"><span class="ln">16   </span></a>    &quot;#print(T)\n&quot;, 
+<a name="l17"><span class="ln">17   </span></a>    &quot;r = 0.01&quot; 
+<a name="l18"><span class="ln">18   </span></a>   ] 
+<a name="l19"><span class="ln">19   </span></a>  }, 
+<a name="l20"><span class="ln">20   </span></a>  { 
+<a name="l21"><span class="ln">21   </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l22"><span class="ln">22   </span></a>   &quot;execution_count&quot;: 2, 
+<a name="l23"><span class="ln">23   </span></a>   &quot;id&quot;: &quot;f31cb430&quot;, 
+<a name="l24"><span class="ln">24   </span></a>   &quot;metadata&quot;: {}, 
+<a name="l25"><span class="ln">25   </span></a>   &quot;outputs&quot;: [], 
+<a name="l26"><span class="ln">26   </span></a>   &quot;source&quot;: [ 
+<a name="l27"><span class="ln">27   </span></a>    &quot;strikePrice = []\n&quot;, 
+<a name="l28"><span class="ln">28   </span></a>    &quot;callBidAsk = []\n&quot;, 
+<a name="l29"><span class="ln">29   </span></a>    &quot;putBidAsk = []\n&quot;, 
+<a name="l30"><span class="ln">30   </span></a>    &quot;callBidPos, callAskPos, putBidPos, putAskPos, strikePos = 0, 0, 0, 0, 0\n&quot;, 
+<a name="l31"><span class="ln">31   </span></a>    &quot;with open(\&quot;goog_quotedata.csv\&quot;, \&quot;r\&quot;) as csvFile:\n&quot;, 
+<a name="l32"><span class="ln">32   </span></a>    &quot;    reader = csv.reader(csvFile)\n&quot;, 
+<a name="l33"><span class="ln">33   </span></a>    &quot;    for row in reader:\n&quot;, 
+<a name="l34"><span class="ln">34   </span></a>    &quot;        if strikePos &gt; 0:\n&quot;, 
+<a name="l35"><span class="ln">35   </span></a>    &quot;            strikePrice.append(float(row[strikePos]))\n&quot;, 
+<a name="l36"><span class="ln">36   </span></a>    &quot;            callBidAsk.append([float(row[callBidPos]), float(row[callAskPos])])\n&quot;, 
+<a name="l37"><span class="ln">37   </span></a>    &quot;            putBidAsk.append([float(row[putBidPos]), float(row[putAskPos])])\n&quot;, 
+<a name="l38"><span class="ln">38   </span></a>    &quot;        if len(row) &gt; 0 and row[0] == 'Expiration Date':\n&quot;, 
+<a name="l39"><span class="ln">39   </span></a>    &quot;            for i in range(len(row)):\n&quot;, 
+<a name="l40"><span class="ln">40   </span></a>    &quot;                if row[i] == 'Strike':\n&quot;, 
+<a name="l41"><span class="ln">41   </span></a>    &quot;                    strikePos = i\n&quot;, 
+<a name="l42"><span class="ln">42   </span></a>    &quot;                if row[i] == 'Bid':\n&quot;, 
+<a name="l43"><span class="ln">43   </span></a>    &quot;                    if callBidPos == 0:\n&quot;, 
+<a name="l44"><span class="ln">44   </span></a>    &quot;                        callBidPos = i\n&quot;, 
+<a name="l45"><span class="ln">45   </span></a>    &quot;                    else:\n&quot;, 
+<a name="l46"><span class="ln">46   </span></a>    &quot;                        putBidPos = i\n&quot;, 
+<a name="l47"><span class="ln">47   </span></a>    &quot;                if row[i] == 'Ask':\n&quot;, 
+<a name="l48"><span class="ln">48   </span></a>    &quot;                    if callAskPos == 0:\n&quot;, 
+<a name="l49"><span class="ln">49   </span></a>    &quot;                        callAskPos = i\n&quot;, 
+<a name="l50"><span class="ln">50   </span></a>    &quot;                    else:\n&quot;, 
+<a name="l51"><span class="ln">51   </span></a>    &quot;                        putAskPos = i\n&quot;, 
+<a name="l52"><span class="ln">52   </span></a>    &quot;#print(strikePrice)\n&quot;, 
+<a name="l53"><span class="ln">53   </span></a>    &quot;#print(callBidAsk)\n&quot;, 
+<a name="l54"><span class="ln">54   </span></a>    &quot;#print(putBidAsk)&quot; 
+<a name="l55"><span class="ln">55   </span></a>   ] 
+<a name="l56"><span class="ln">56   </span></a>  }, 
+<a name="l57"><span class="ln">57   </span></a>  { 
+<a name="l58"><span class="ln">58   </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l59"><span class="ln">59   </span></a>   &quot;execution_count&quot;: 3, 
+<a name="l60"><span class="ln">60   </span></a>   &quot;id&quot;: &quot;9245aae0&quot;, 
+<a name="l61"><span class="ln">61   </span></a>   &quot;metadata&quot;: {}, 
+<a name="l62"><span class="ln">62   </span></a>   &quot;outputs&quot;: [], 
+<a name="l63"><span class="ln">63   </span></a>   &quot;source&quot;: [ 
+<a name="l64"><span class="ln">64   </span></a>    &quot;callMidPrice = []\n&quot;, 
+<a name="l65"><span class="ln">65   </span></a>    &quot;for [strike, [bid, ask]] in zip(strikePrice, callBidAsk):\n&quot;, 
+<a name="l66"><span class="ln">66   </span></a>    &quot;    if math.log(strike / S) &gt;= -0.2 and math.log(strike / S) &lt;= 0.2:\n&quot;, 
+<a name="l67"><span class="ln">67   </span></a>    &quot;        #print(math.log(strike / S))\n&quot;, 
+<a name="l68"><span class="ln">68   </span></a>    &quot;        callMidPrice.append([strike, (bid + ask) / 2])\n&quot;, 
+<a name="l69"><span class="ln">69   </span></a>    &quot;putMidPrice = []\n&quot;, 
+<a name="l70"><span class="ln">70   </span></a>    &quot;for [strike, [bid, ask]] in zip(strikePrice, putBidAsk):\n&quot;, 
+<a name="l71"><span class="ln">71   </span></a>    &quot;    if math.log(strike / S) &gt;= -0.2 and math.log(strike / S) &lt;= 0.2:\n&quot;, 
+<a name="l72"><span class="ln">72   </span></a>    &quot;        #print(math.log(strike / S))\n&quot;, 
+<a name="l73"><span class="ln">73   </span></a>    &quot;        putMidPrice.append([strike, (bid + ask) / 2])&quot; 
+<a name="l74"><span class="ln">74   </span></a>   ] 
+<a name="l75"><span class="ln">75   </span></a>  }, 
+<a name="l76"><span class="ln">76   </span></a>  { 
+<a name="l77"><span class="ln">77   </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l78"><span class="ln">78   </span></a>   &quot;execution_count&quot;: 4, 
+<a name="l79"><span class="ln">79   </span></a>   &quot;id&quot;: &quot;9d0e049b&quot;, 
+<a name="l80"><span class="ln">80   </span></a>   &quot;metadata&quot;: {}, 
+<a name="l81"><span class="ln">81   </span></a>   &quot;outputs&quot;: [ 
+<a name="l82"><span class="ln">82   </span></a>    { 
+<a name="l83"><span class="ln">83   </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l84"><span class="ln">84   </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l85"><span class="ln">85   </span></a>     &quot;text&quot;: [ 
+<a name="l86"><span class="ln">86   </span></a>      &quot;2200.0 621.1\n&quot;, 
+<a name="l87"><span class="ln">87   </span></a>      &quot;2250.0 584.35\n&quot;, 
+<a name="l88"><span class="ln">88   </span></a>      &quot;2300.0 548.9\n&quot;, 
+<a name="l89"><span class="ln">89   </span></a>      &quot;2350.0 514.4\n&quot;, 
+<a name="l90"><span class="ln">90   </span></a>      &quot;2400.0 481.0\n&quot;, 
+<a name="l91"><span class="ln">91   </span></a>      &quot;2450.0 449.95\n&quot;, 
+<a name="l92"><span class="ln">92   </span></a>      &quot;2500.0 418.45\n&quot;, 
+<a name="l93"><span class="ln">93   </span></a>      &quot;2550.0 389.3\n&quot;, 
+<a name="l94"><span class="ln">94   </span></a>      &quot;2600.0 361.2\n&quot;, 
+<a name="l95"><span class="ln">95   </span></a>      &quot;2650.0 334.7\n&quot;, 
+<a name="l96"><span class="ln">96   </span></a>      &quot;2700.0 309.1\n&quot;, 
+<a name="l97"><span class="ln">97   </span></a>      &quot;2750.0 284.65\n&quot;, 
+<a name="l98"><span class="ln">98   </span></a>      &quot;2800.0 261.65\n&quot;, 
+<a name="l99"><span class="ln">99   </span></a>      &quot;2850.0 240.64999999999998\n&quot;, 
+<a name="l100"><span class="ln">100  </span></a>      &quot;2900.0 220.15\n&quot;, 
+<a name="l101"><span class="ln">101  </span></a>      &quot;2950.0 201.89999999999998\n&quot;, 
+<a name="l102"><span class="ln">102  </span></a>      &quot;3000.0 182.7\n&quot;, 
+<a name="l103"><span class="ln">103  </span></a>      &quot;3050.0 167.85000000000002\n&quot;, 
+<a name="l104"><span class="ln">104  </span></a>      &quot;3100.0 153.45\n&quot;, 
+<a name="l105"><span class="ln">105  </span></a>      &quot;3150.0 139.0\n&quot;, 
+<a name="l106"><span class="ln">106  </span></a>      &quot;3200.0 126.55\n&quot;, 
+<a name="l107"><span class="ln">107  </span></a>      &quot;3250.0 114.80000000000001\n&quot; 
+<a name="l108"><span class="ln">108  </span></a>     ] 
+<a name="l109"><span class="ln">109  </span></a>    } 
+<a name="l110"><span class="ln">110  </span></a>   ], 
+<a name="l111"><span class="ln">111  </span></a>   &quot;source&quot;: [ 
+<a name="l112"><span class="ln">112  </span></a>    &quot;for [strike, price] in callMidPrice:\n&quot;, 
+<a name="l113"><span class="ln">113  </span></a>    &quot;    print(strike, price)&quot; 
+<a name="l114"><span class="ln">114  </span></a>   ] 
+<a name="l115"><span class="ln">115  </span></a>  }, 
+<a name="l116"><span class="ln">116  </span></a>  { 
+<a name="l117"><span class="ln">117  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l118"><span class="ln">118  </span></a>   &quot;execution_count&quot;: 5, 
+<a name="l119"><span class="ln">119  </span></a>   &quot;id&quot;: &quot;73de4f4e&quot;, 
+<a name="l120"><span class="ln">120  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l121"><span class="ln">121  </span></a>   &quot;outputs&quot;: [], 
+<a name="l122"><span class="ln">122  </span></a>   &quot;source&quot;: [ 
+<a name="l123"><span class="ln">123  </span></a>    &quot;def callBSPrice(K, vol):\n&quot;, 
+<a name="l124"><span class="ln">124  </span></a>    &quot;    dPlus = (math.log(S / K) + (r + vol * vol / 2) * T) / (vol * math.sqrt(T))\n&quot;, 
+<a name="l125"><span class="ln">125  </span></a>    &quot;    dMinus = (math.log(S / K) + (r - vol * vol / 2) * T) / (vol * math.sqrt(T))\n&quot;, 
+<a name="l126"><span class="ln">126  </span></a>    &quot;    \n&quot;, 
+<a name="l127"><span class="ln">127  </span></a>    &quot;    price = S * norm.cdf(dPlus) - K * math.exp(-r * T) * norm.cdf(dMinus)\n&quot;, 
+<a name="l128"><span class="ln">128  </span></a>    &quot;    #print(price)\n&quot;, 
+<a name="l129"><span class="ln">129  </span></a>    &quot;    return price\n&quot;, 
+<a name="l130"><span class="ln">130  </span></a>    &quot;\n&quot;, 
+<a name="l131"><span class="ln">131  </span></a>    &quot;negLogMoneyness = []\n&quot;, 
+<a name="l132"><span class="ln">132  </span></a>    &quot;#print(r, math.exp(-r * T))\n&quot;, 
+<a name="l133"><span class="ln">133  </span></a>    &quot;callIV = []\n&quot;, 
+<a name="l134"><span class="ln">134  </span></a>    &quot;for [strike, price] in callMidPrice:\n&quot;, 
+<a name="l135"><span class="ln">135  </span></a>    &quot;    negLogMoneyness.append(math.log(strike / S))\n&quot;, 
+<a name="l136"><span class="ln">136  </span></a>    &quot;    left, right = 1e-10, 1\n&quot;, 
+<a name="l137"><span class="ln">137  </span></a>    &quot;    #print(callBSPrice(strike, 0.3408))\n&quot;, 
+<a name="l138"><span class="ln">138  </span></a>    &quot;    while right - left &gt; 1e-10:\n&quot;, 
+<a name="l139"><span class="ln">139  </span></a>    &quot;        mid = (left + right) / 2\n&quot;, 
+<a name="l140"><span class="ln">140  </span></a>    &quot;        if (callBSPrice(strike, mid) - price) * (callBSPrice(strike, left) - price) &gt; 0:\n&quot;, 
+<a name="l141"><span class="ln">141  </span></a>    &quot;            left = mid\n&quot;, 
+<a name="l142"><span class="ln">142  </span></a>    &quot;        else:\n&quot;, 
+<a name="l143"><span class="ln">143  </span></a>    &quot;            right = mid\n&quot;, 
+<a name="l144"><span class="ln">144  </span></a>    &quot;    callIV.append(left)\n&quot;, 
+<a name="l145"><span class="ln">145  </span></a>    &quot;    #print(strike, price, left)\n&quot;, 
+<a name="l146"><span class="ln">146  </span></a>    &quot;\n&quot;, 
+<a name="l147"><span class="ln">147  </span></a>    &quot;def putBSPrice(K, vol):\n&quot;, 
+<a name="l148"><span class="ln">148  </span></a>    &quot;    dPlus = (math.log(S / K) + (r + vol * vol / 2) * T) / (vol * math.sqrt(T))\n&quot;, 
+<a name="l149"><span class="ln">149  </span></a>    &quot;    dMinus = (math.log(S / K) + (r - vol * vol / 2) * T) / (vol * math.sqrt(T))\n&quot;, 
+<a name="l150"><span class="ln">150  </span></a>    &quot;    \n&quot;, 
+<a name="l151"><span class="ln">151  </span></a>    &quot;    price = K * math.exp(-r * T) * norm.cdf(-dMinus) - S * norm.cdf(-dPlus)\n&quot;, 
+<a name="l152"><span class="ln">152  </span></a>    &quot;    #print(price)\n&quot;, 
+<a name="l153"><span class="ln">153  </span></a>    &quot;    return price\n&quot;, 
+<a name="l154"><span class="ln">154  </span></a>    &quot;\n&quot;, 
+<a name="l155"><span class="ln">155  </span></a>    &quot;putIV = []\n&quot;, 
+<a name="l156"><span class="ln">156  </span></a>    &quot;for [strike, price] in putMidPrice:\n&quot;, 
+<a name="l157"><span class="ln">157  </span></a>    &quot;    left, right = 1e-10, 1\n&quot;, 
+<a name="l158"><span class="ln">158  </span></a>    &quot;    #print(callBSPrice(strike, 0.3408))\n&quot;, 
+<a name="l159"><span class="ln">159  </span></a>    &quot;    while right - left &gt; 1e-15:\n&quot;, 
+<a name="l160"><span class="ln">160  </span></a>    &quot;        mid = (left + right) / 2\n&quot;, 
+<a name="l161"><span class="ln">161  </span></a>    &quot;        if (putBSPrice(strike, mid) - price) * (putBSPrice(strike, left) - price) &gt; 0:\n&quot;, 
+<a name="l162"><span class="ln">162  </span></a>    &quot;            left = mid\n&quot;, 
+<a name="l163"><span class="ln">163  </span></a>    &quot;        else:\n&quot;, 
+<a name="l164"><span class="ln">164  </span></a>    &quot;            right = mid\n&quot;, 
+<a name="l165"><span class="ln">165  </span></a>    &quot;    putIV.append(left)\n&quot;, 
+<a name="l166"><span class="ln">166  </span></a>    &quot;    #print(strike, price, left)&quot; 
+<a name="l167"><span class="ln">167  </span></a>   ] 
+<a name="l168"><span class="ln">168  </span></a>  }, 
+<a name="l169"><span class="ln">169  </span></a>  { 
+<a name="l170"><span class="ln">170  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l171"><span class="ln">171  </span></a>   &quot;execution_count&quot;: 6, 
+<a name="l172"><span class="ln">172  </span></a>   &quot;id&quot;: &quot;a3b37795&quot;, 
+<a name="l173"><span class="ln">173  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l174"><span class="ln">174  </span></a>   &quot;outputs&quot;: [ 
+<a name="l175"><span class="ln">175  </span></a>    { 
+<a name="l176"><span class="ln">176  </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l177"><span class="ln">177  </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l178"><span class="ln">178  </span></a>     &quot;text&quot;: [ 
+<a name="l179"><span class="ln">179  </span></a>      &quot;-0.19446719596548848 0.34839943209194113 0.33601446502701293\n&quot;, 
+<a name="l180"><span class="ln">180  </span></a>      &quot;-0.1719943401134299 0.3433570294366278 0.3318757323774184\n&quot;, 
+<a name="l181"><span class="ln">181  </span></a>      &quot;-0.15001543339465456 0.3388293793038397 0.3283405602159536\n&quot;, 
+<a name="l182"><span class="ln">182  </span></a>      &quot;-0.128509228173691 0.3343000803226408 0.32404407276887137\n&quot;, 
+<a name="l183"><span class="ln">183  </span></a>      &quot;-0.10745581897585868 0.32990320586548283 0.32052542315178556\n&quot;, 
+<a name="l184"><span class="ln">184  </span></a>      &quot;-0.08683653177312302 0.3269729507246666 0.3173380398483533\n&quot;, 
+<a name="l185"><span class="ln">185  </span></a>      &quot;-0.06663382445560359 0.32234499872220923 0.3136183231375538\n&quot;, 
+<a name="l186"><span class="ln">186  </span></a>      &quot;-0.0468311971594239 0.31906325027636717 0.31095952404831895\n&quot;, 
+<a name="l187"><span class="ln">187  </span></a>      &quot;-0.027413111302322227 0.3156800815588592 0.30793613858812785\n&quot;, 
+<a name="l188"><span class="ln">188  </span></a>      &quot;-0.00836491633162777 0.3127444559464171 0.3054187436843313\n&quot;, 
+<a name="l189"><span class="ln">189  </span></a>      &quot;0.010327216680524758 0.30952813611285657 0.3026300714826273\n&quot;, 
+<a name="l190"><span class="ln">190  </span></a>      &quot;0.028676355348721275 0.30628305476809603 0.2999752070049062\n&quot;, 
+<a name="l191"><span class="ln">191  </span></a>      &quot;0.04669486085139957 0.303304197569198 0.29765329267441154\n&quot;, 
+<a name="l192"><span class="ln">192  </span></a>      &quot;0.06439443795080046 0.30113920005973405 0.2949771985395029\n&quot;, 
+<a name="l193"><span class="ln">193  </span></a>      &quot;0.08178618066266964 0.29830914655499496 0.2939562243791065\n&quot;, 
+<a name="l194"><span class="ln">194  </span></a>      &quot;0.09888061402196974 0.2965809406717579 0.2920285022848108\n&quot;, 
+<a name="l195"><span class="ln">195  </span></a>      &quot;0.11568773233835115 0.29274238944141295 0.29057702531091323\n&quot;, 
+<a name="l196"><span class="ln">196  </span></a>      &quot;0.1322170342895617 0.29223175307362903 0.28924151290394773\n&quot;, 
+<a name="l197"><span class="ln">197  </span></a>      &quot;0.14847755516134198 0.2911290273313546 0.2875896737352541\n&quot;, 
+<a name="l198"><span class="ln">198  </span></a>      &quot;0.1644778965077831 0.28889617965449965 0.28771693071586846\n&quot;, 
+<a name="l199"><span class="ln">199  </span></a>      &quot;0.18022625347592225 0.2877814669175761 0.2863376661420942\n&quot;, 
+<a name="l200"><span class="ln">200  </span></a>      &quot;0.19573044001188747 0.2864295350868433 0.2863810901022962\n&quot; 
+<a name="l201"><span class="ln">201  </span></a>     ] 
+<a name="l202"><span class="ln">202  </span></a>    } 
+<a name="l203"><span class="ln">203  </span></a>   ], 
+<a name="l204"><span class="ln">204  </span></a>   &quot;source&quot;: [ 
+<a name="l205"><span class="ln">205  </span></a>    &quot;for i in range(len(negLogMoneyness)):\n&quot;, 
+<a name="l206"><span class="ln">206  </span></a>    &quot;    print(negLogMoneyness[i], callIV[i], putIV[i])&quot; 
+<a name="l207"><span class="ln">207  </span></a>   ] 
+<a name="l208"><span class="ln">208  </span></a>  }, 
+<a name="l209"><span class="ln">209  </span></a>  { 
+<a name="l210"><span class="ln">210  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l211"><span class="ln">211  </span></a>   &quot;execution_count&quot;: 7, 
+<a name="l212"><span class="ln">212  </span></a>   &quot;id&quot;: &quot;62054e60&quot;, 
+<a name="l213"><span class="ln">213  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l214"><span class="ln">214  </span></a>   &quot;outputs&quot;: [ 
+<a name="l215"><span class="ln">215  </span></a>    { 
+<a name="l216"><span class="ln">216  </span></a>     &quot;data&quot;: { 
+<a name="l217"><span class="ln">217  </span></a>      &quot;text/plain&quot;: &quot;&lt;Figure size 432x288 with 1 Axes&gt;&quot;, 
+<a name="l218"><span class="ln">218  </span></a>      &quot;image/png&quot;: &quot;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\n&quot; 
+<a name="l219"><span class="ln">219  </span></a>     }, 
+<a name="l220"><span class="ln">220  </span></a>     &quot;metadata&quot;: { 
+<a name="l221"><span class="ln">221  </span></a>      &quot;needs_background&quot;: &quot;light&quot; 
+<a name="l222"><span class="ln">222  </span></a>     }, 
+<a name="l223"><span class="ln">223  </span></a>     &quot;output_type&quot;: &quot;display_data&quot; 
+<a name="l224"><span class="ln">224  </span></a>    } 
+<a name="l225"><span class="ln">225  </span></a>   ], 
+<a name="l226"><span class="ln">226  </span></a>   &quot;source&quot;: [ 
+<a name="l227"><span class="ln">227  </span></a>    &quot;plt.plot(negLogMoneyness, callIV, label = 'Call IV')\n&quot;, 
+<a name="l228"><span class="ln">228  </span></a>    &quot;plt.plot(negLogMoneyness, putIV, label = 'Put IV')\n&quot;, 
+<a name="l229"><span class="ln">229  </span></a>    &quot;plt.legend()\n&quot;, 
+<a name="l230"><span class="ln">230  </span></a>    &quot;plt.show()&quot; 
+<a name="l231"><span class="ln">231  </span></a>   ] 
+<a name="l232"><span class="ln">232  </span></a>  } 
+<a name="l233"><span class="ln">233  </span></a> ], 
+<a name="l234"><span class="ln">234  </span></a> &quot;metadata&quot;: { 
+<a name="l235"><span class="ln">235  </span></a>  &quot;kernelspec&quot;: { 
+<a name="l236"><span class="ln">236  </span></a>   &quot;display_name&quot;: &quot;jpEnv&quot;, 
+<a name="l237"><span class="ln">237  </span></a>   &quot;language&quot;: &quot;python&quot;, 
+<a name="l238"><span class="ln">238  </span></a>   &quot;name&quot;: &quot;jpenv&quot; 
+<a name="l239"><span class="ln">239  </span></a>  }, 
+<a name="l240"><span class="ln">240  </span></a>  &quot;language_info&quot;: { 
+<a name="l241"><span class="ln">241  </span></a>   &quot;codemirror_mode&quot;: { 
+<a name="l242"><span class="ln">242  </span></a>    &quot;name&quot;: &quot;ipython&quot;, 
+<a name="l243"><span class="ln">243  </span></a>    &quot;version&quot;: 3 
+<a name="l244"><span class="ln">244  </span></a>   }, 
+<a name="l245"><span class="ln">245  </span></a>   &quot;file_extension&quot;: &quot;.py&quot;, 
+<a name="l246"><span class="ln">246  </span></a>   &quot;mimetype&quot;: &quot;text/x-python&quot;, 
+<a name="l247"><span class="ln">247  </span></a>   &quot;name&quot;: &quot;python&quot;, 
+<a name="l248"><span class="ln">248  </span></a>   &quot;nbconvert_exporter&quot;: &quot;python&quot;, 
+<a name="l249"><span class="ln">249  </span></a>   &quot;pygments_lexer&quot;: &quot;ipython3&quot;, 
+<a name="l250"><span class="ln">250  </span></a>   &quot;version&quot;: &quot;3.9.7&quot; 
+<a name="l251"><span class="ln">251  </span></a>  } 
+<a name="l252"><span class="ln">252  </span></a> }, 
+<a name="l253"><span class="ln">253  </span></a> &quot;nbformat&quot;: 4, 
+<a name="l254"><span class="ln">254  </span></a> &quot;nbformat_minor&quot;: 5 
+<a name="l255"><span class="ln">255  </span></a>}</span></pre>
+</body>
+</html>

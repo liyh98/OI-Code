@@ -6,7 +6,7 @@ vector<int> e[200001];
 bool v[200001], flag;
 queue<int> soc;
 
-void dfs(int x, int pre, bool first = 0)
+void dfs(int x, int pre)
 {
     v[x] = 1;
     if (d[x])
@@ -15,22 +15,24 @@ void dfs(int x, int pre, bool first = 0)
     {
         if (nex != pre)
         {
-            if (first && v[nex])
+            if (v[nex])
             {
                 flag = 1;
                 return;
             }
-            dfs(nex, x, first);
+            dfs(nex, x);
             if (flag)
                 return;
         }
     }
 }
 
-int count(int x, int pre)
+int count(int x, int pre, vector<int> &ls)
 {
     int ret = 0;
     ret += d[x];
+    if (d[x])
+        ls.push_back(x);
     v[x] = 1;
     for (int &nex : e[x])
     {
@@ -41,7 +43,7 @@ int count(int x, int pre)
                 flag = 1;
                 return 0;
             }
-            ret += count(nex, x);
+            ret += count(nex, x, ls);
             if (flag)
                 return 0;
         }
@@ -73,23 +75,27 @@ int main()
         e[b].push_back(a);
     }
     vector<pair<int, int>> ans;
-    dfs(1, 0, 1);
+    dfs(1, 0);
     if (flag)
     {
         puts("-1");
         return 0;
     }
-    priority_queue<pair<int, int>> pq;
+    vector<pair<int, int>> cc;
+    vector<vector<int>> l(n + 1);
     for (int i = 1; i <= n; i++)
     {
         if (!v[i] && d[i])
         {
-            pq.emplace(count(i, 0), i);
+            vector<int> t;
+            int res = count(i, 0, t);
             if (flag)
             {
                 puts("-1");
                 return 0;
             }
+            cc.emplace_back(res, i);
+            l[i] = t;
         }
     }
     for (int i = 1; i <= n; i++)
@@ -98,10 +104,9 @@ int main()
             puts("-1");
             return 0;
         }
-    while (!pq.empty())
+    sort(cc.begin(), cc.end(), greater());
+    for (auto &[_, x] : cc)
     {
-        auto [_, x] = pq.top();
-        pq.pop();
         if (soc.empty())
         {
             puts("-1");
@@ -112,7 +117,9 @@ int main()
         d[x]--;
         if (--d[fa] == 0)
             soc.pop();
-        dfs(x, 0);
+        for (int &x : l[x])
+            if (d[x])
+                soc.push(x);
     }
     if (!soc.empty())
     {
